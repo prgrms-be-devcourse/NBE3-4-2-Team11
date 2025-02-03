@@ -1,13 +1,14 @@
 package com.pofo.backend.domain.user.join.entity;
 
+import com.pofo.backend.common.jpa.entity.BaseEntity;
 import com.pofo.backend.common.jpa.entity.BaseTime;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,31 +16,35 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
-public class Users extends BaseTime {
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "users",
+        uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
+public class Users extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true)
+    @NotNull(message = "email 값이 필요합니다.")
+    public String email;
 
-    private String email;
-
-    private String name;
+    @NotNull(message = "name 값이 필요합니다.")
+    public String name;
 
     @Enumerated(EnumType.STRING)
-    private Sex sex;
+    @NotNull(message = "sex 값이 필요합니다.")
+    public Sex sex;
 
-    private String nickname;
+    @NotNull(message = "nickname 값이 필요합니다.")
+    public String nickname;
 
-    private String age;
+    @NotNull(message = "age 값이 필요합니다.")
+    public LocalDate age;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime createdAt;
 
     @Getter
     @AllArgsConstructor
-    private enum Sex {
+    public enum Sex {
         MALE,
         FEMALE;
 
