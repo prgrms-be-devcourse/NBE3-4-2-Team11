@@ -5,51 +5,51 @@ spring:
   application:
     name: backend
   config:
-    import: optional:file:.env[.properties]  # .env 파일을 .properties 형식으로 로드
+    import: optional:file:.env[.properties]  # .env 파일 로드 부분은 삭제해도 무방
 
   datasource:
-    url: ${DB_URL}  # .env에서 로드한 DB_URL 사용
-    username: ${DB_USERNAME}  # .env에서 로드한 DB_USERNAME 사용
-    password: ${DB_PASSWORD}  # .env에서 로드한 DB_PASSWORD 사용
+    url: jdbc:mysql://localhost:3307/Pofo
+    username: root
+    password: lldj123414
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   output:
     ansi:
-      enabled: always  # 콘솔에서 색깔 출력 활성화
+      enabled: always
 
   jpa:
     hibernate:
-      ddl-auto: update  # 데이터베이스 스키마 자동 업데이트
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: true  # SQL 포맷팅
+        format_sql: true
         show_sql: true
-        default_batch_fetch_size: 100  # 배치 페치 크기
-        highlight-sql: true  # SQL 강조
+        default_batch_fetch_size: 100
+        highlight-sql: true
 
   security:
     oauth2:
       client:
         registration:
           naver:
-            client_id: ${SPRING_SECURITY_NAVER_CLIENT_ID}
-            client_secret: ${SPRING_SECURITY_NAVER_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/api/v1/user/naver/login/naver/callback
+            client_id: gXkzEDMfis7Z_IPiTB3b
+            client_secret: jilcXyJfgD
+            redirect-uri: http://localhost:8080/api/v1/user/oauth2/callback/naver
             authorization-grant-type: authorization_code
             scope:
               - email
           google:
-            client-id: ${SPRING_SECURITY_GOOGLE_CLIENT_ID}
-            client_secret: ${SPRING_SECURITY_GOOGLE_CLIENT_SECRET}
-            redirect-uri: ${SPRING_SECURITY_GOOGLE_REDIRECT_URI}
+            client-id: 1090274660983-5te20ulthhhfrd6qtp40tsn5kqe17i85.apps.googleusercontent.com
+            client_secret: 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
+            redirect-uri: http://localhost:8080/api/v1/user/google/login/google/callback
             authorization-grant-type: authorization_code
             scope: email
             client-name: Google
             provider: google
           kakao:
-            client-id: ${SPRING_SECURITY_KAKAO_CLIENT_ID}
-            redirect-uri: ${SPRING_SECURITY_KAKAO_REDIRECT_URI}
+            client-id: aeb6c6c79ebfc5a5063f0c229af332ab
+            redirect-uri: http://localhost:8080/api/v1/user/kakao/login/kakao/callback
             authorization-grant-type: authorization_code
             scope: account_email
             client-name: Kakao
@@ -79,33 +79,22 @@ spring:
     active: oauth
 
 springdoc:
-  default-produces-media-type: application/json;charset=UTF-8  # 기본 JSON 미디어 타입
+  default-produces-media-type: application/json;charset=UTF-8
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG  # Hibernate SQL 로그 레벨 설정
-    org.hibernate.orm.jdbc.bind: TRACE  # Hibernate 바인딩 로그 레벨 설정
-    org.hibernate.orm.jdbc.extract: TRACE  # Hibernate JDBC 추출 로그 레벨 설정
-    org.springframework.data.redis: DEBUG  # Spring Data Redis 로그 레벨 추가
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE
+    org.springframework.data.redis: DEBUG
 
 jwt:
   secret:
-    key: ${JWT_SECRET_KEY}
+    key: YxGFS1/HFxZejbF1UZkExiRnq30YiWa75ljM6aNzruym5mFjd7yM1kdbtbu5mf53NPGMVTMWOBn4bOyTGarKMQ
   expiration:
-    time: 3600000  # AccessToken expired time : 1h(60min)
+    time: 60000
   refresh-token:
-    expiration-time: 1800000  # RefreshToken expired time : 30min
+    expiration-time: 7200000
 
-aes:
-  secret:
-    key: ${AES_SECRET_KEY}
-
-auth :
-  key : ${AUTHORIZATION_KEY}
-
-# JWT Test Settings (commented out)
-#jwt:
-#  expiration:
-#    time: 60000  # AccessToken expired time : 1m(60sec)
-#  refresh-token:
-#    expiration-time: 120000  # RefreshToken expired time : 2min(120sec)
+auth:
+  key: auth
